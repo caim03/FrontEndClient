@@ -1,0 +1,92 @@
+<header oncontextmenu="return false;">
+  <div class="navbar-fixed" style="z-index: 9999;" ng-controller="MainCtrl as ctrl">
+    <nav id="navbar" class="nav-wrapper indigo">
+      <div class="col s12">
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <button id="logout" class="btn amber darken-2 waves-effect" ng-click="ctrl.logout();" style="outline: 0; margin-right: 10px;">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="side-nav fixed">
+    <div ui-tree="" class="angular-ui-tree " data-nodrop-enabled="true" data-clone-enabled="false" style="top: 50%;
+      left: 50%;
+      margin-top: 30%;
+      margin-left: 10px;
+      width: 100px;
+      height: 100px;">
+      <script type="text/ng-template" id="categories.html">
+        <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" data-nodrag>
+            <div context="context1" class="collapsible-header" ng-click="toggle(this);" ng-mousedown="ctrl.handleClick($event)"
+                 style="margin-top: 10px; font-weight: 200;">
+              <a class="" data-nodrag
+                  ng-if="cat.children">
+                                            <span class="glyphicon"
+                                                  ng-class="{'glyphicon-folder-close': !collapsed,'glyphicon-folder-open': collapsed}"
+                                                  style="margin-right: 10px;">
+                                            </span>
+              </a>
+              <a class="" data-nodrag
+                 ng-if="!cat.children" ng-dblclick="ctrl.openFile(cat)">
+                                            <span class="glyphicon glyphicon-file" style="margin-right: 10px;">
+                                            </span>
+              </a>
+              {{cat.name}}
+            </div>
+        </div>
+          <ol ui-tree-nodes="" ng-model="ctrl.categories" ng-if="cat.children" ng-class="{hidden: !collapsed}">
+            <li ng-repeat="cat in cat.children"
+                ui-tree-node ng-include="'categories.html'">
+            </li>
+          </ol>
+        </div>
+      </script>
+      <ol ui-tree-nodes="" ng-model="ctrl.categories" ng-class="{hidden: collapsed}">
+        <li ng-repeat="cat in ctrl.categories" ui-tree-node ng-include="'categories.html'"></li>
+      </ol>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="fileContent" class="container">
+    <div class="row">
+      <div class="col s12 m9 l10 offset-l1">
+        <div class="section">
+          <h4 id="fileTitle">Titolo del file</h4>
+          <p id="fileText">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<ul id="context1" class="dropdown-menu" style="z-index: 10000;">
+  <div class="image-upload dropdown-header">
+      <label for="file-input">
+        <li style="display: block; font-weight: normal; font-size: small; color: #333; line-height: 1.42857143;">New File</li>
+      </label>
+      <input id="file-input" type="file" onchange="angular.element(this).scope().uploadFile(this);"/>
+  </div>
+  <li><a ng-click="">Delete</a></li>
+  <li class="divider"></li>
+  <li><a ng-click="">Properties</a></li>
+</ul>
+
+<!--
+<form id="form">
+  <div class="image-upload" style="position: fixed; bottom: 20px; right: 20px;">
+    <label for="file-input">
+      <div class="btn-floating btn-large waves-effect waves-light indigo">
+        <i class="glyphicon glyphicon-cloud-upload"></i>
+      </div>
+    </label>
+    <input id="file-input" type="file" onchange="angular.element(this).scope().uploadFile(this);"/>
+  </div>
+</form>
+-->
