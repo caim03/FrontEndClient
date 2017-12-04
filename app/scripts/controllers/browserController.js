@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('BrowserCtrl', ['$scope', '$rootScope', '$compile', '$http', '$location', '$cookies', 'userFactory', 'backendFactory', function ($scope, $rootScope, $compile, $http, $location, $cookies, userFactory, backendFactory) {
+  .controller('BrowserCtrl', ['$scope', '$rootScope', '$compile', '$http', '$location', '$cookies', 'userFactory', 'backendFactory', 'Upload', function ($scope, $rootScope, $compile, $http, $location, $cookies, userFactory, backendFactory, Upload) {
     var ctrl = this;
     ctrl.fileName = "";
 
     var pathElem = document.getElementById("path");
     var h4Text = document.getElementById("fileTitle");
     var pText = document.getElementById("fileText");
-    var form = document.getElementById('form');
+
+    var currPath = "";
 
     ctrl.addNavbar = addNavbarFn;
     ctrl.openFile = openFileFn;
@@ -16,7 +17,9 @@ angular.module('clientApp')
 
     $scope.uploadFile = uploadFileFn;
 
-    ctrl.categories = getDirectoryTree(userFactory.getUsername());
+    ctrl.categories = [];
+
+    getDirectoryTree(userFactory.getUsername());
 
     function getDirectoryTree(user) {
       if (user === null || user === "" || user === undefined) {
@@ -33,8 +36,7 @@ angular.module('clientApp')
 
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiDirectory(), data)
         .then(function (response) {
-          console.log(response);
-          return response.body
+          ctrl.categories = response.data;
         })
         .catch(function (err) {
           console.log(err);
@@ -46,9 +48,17 @@ angular.module('clientApp')
       pathElem.innerHTML = fileName;
     }
 
-    function handleClickFn(event) {
+    function handleClickFn(event, cat) {
       if (event.which === 3) {
         console.log("TASTO DESTRO");
+      }
+
+      if (event.which === 1) {
+        console.log("TASTO SINISTRO");
+        console.log(cat);
+        if (cat.children) {
+          currPath = currPath + '/' + cat.name;
+        }
       }
     }
 
@@ -66,70 +76,42 @@ angular.module('clientApp')
          name: file.name,
          size: file.size,
          fileType: file.fileType,
-         user: 'username',
+         user: userFactory.getUsername(),
          guid: null
        };
 
-      /* **********************************************************
-
-      $http.post('indirizzo master', metadata, config)
-        .success(function(data, status, headers, config){
-          console.log(data);
-          // contatto uno slave
-          $http.post(data.slaves[0], metadata, config)
-            .success(function(data, status, header, config){
-              console.log(data); // file fisico
-
-              h4Text.innerHTML = file.name;
-              pText.innerHTML = data.text;
-            })
-            .error(function(data, status, header, config){
-              console.log(data);
-            });
+      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(), metadata, config)
+        .then(function(response) {
+          h4Text.innerHTML = file.name;
+          pText.innerHTML = response.data; // TODO vedere come accedere al corpo del file
         })
-        .error(function(data, status, header, config){
-          console.log(data, status);
-          h4Text.innerHTML = status;
+        .catch(function(err) {
+          console.log(err);
+          $location.path('/404');
         });
-
-       ********************************************************** */
     }
 
     function uploadFileFn(files) {
-      // TODO request upload to master
-      // TODO verificare la libreria fs (fs.createReadStream(path assoluto macchina))
       var file = files.files[0];
-      console.log(file);
 
-      var config = {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+      Upload.upload({
+        url: 'http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiUpload(),
+        data: {
+          file: file,
+          username: userFactory.getUsername(),
+          path: currPath
         }
-      };
+      }).then(function(response){
+        console.log(response);
+        console.log('Upload success!');
 
-      var metadata = {
-        type: 'METADATA',
-        name: file.name,
-        size: file.size,
-        fileType: file.type
-      };
+        if (response.status === 200) {
+          Materialize.toast('Upload Completed', 4000);
 
-      /* ******************************************
-
-      $http.post('indirizzo master', metadata, config)
-        .success(function(data, status, headers, config){
-          console.log(data);
-          // Invia il file fisico ad ogni slave
-        })
-        .error(function(data, status, headers, config){
-          console.log(data);
-        });
-
-      ******************************************  */
-
-      Materialize.toast('Upload Completed', 4000);
-      form.reset();
+          /* Update tree */
+          getDirectoryTree(userFactory.getUsername());
+        }
+      });
     }
-
   }]);
 

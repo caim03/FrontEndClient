@@ -9,12 +9,16 @@ angular.module('clientApp')
     var backendFactory = {};
 
     backendFactory.ipAddress = "localhost";
-    backendFactory.port = "9901";
+    backendFactory.port = "9001";
     backendFactory.getDirectory = "/api/backend/getDirectory";
+    backendFactory.getFile = "/api/backend/getFile";
+    backendFactory.uploadFile = "/api/backend/uploadFile";
 
     backendFactory.getIpAddress = getIpAddressFn;
     backendFactory.getPort = getPortFn;
     backendFactory.getApiDirectory = getApiDirectoryFn;
+    backendFactory.getApiFile = getApiFileFn;
+    backendFactory.getApiUpload = getApiUploadFn;
 
     function getIpAddressFn() {
       return backendFactory.ipAddress;
@@ -26,6 +30,14 @@ angular.module('clientApp')
 
     function getApiDirectoryFn() {
       return backendFactory.getDirectory;
+    }
+
+    function getApiFileFn() {
+      return backendFactory.getFile;
+    }
+
+    function getApiUploadFn() {
+      return backendFactory.uploadFile;
     }
 
     return backendFactory;

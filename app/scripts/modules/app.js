@@ -16,5 +16,6 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.tree'
+    'ui.tree',
+    'ngFileUpload'
   ]);
