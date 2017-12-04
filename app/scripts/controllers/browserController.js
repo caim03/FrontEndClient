@@ -23,15 +23,16 @@ angular.module('clientApp')
 
     function getDirectoryTree(user) {
       if (user === null || user === "" || user === undefined) {
-        var user = $cookies.get('userCookie');
+        var username = JSON.parse($cookies.get('userCookie')).username;
+        console.log(username);
 
-        if (user === null || user === "" || user === undefined) {
+        if (username === null || username === "" || username === undefined) {
           $location.path('/');
         }
       }
 
       var data = {
-        username: user
+        username: username
       };
 
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiDirectory(), data)

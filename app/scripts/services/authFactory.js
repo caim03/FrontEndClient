@@ -15,7 +15,10 @@ angular.module('clientApp')
       // TODO search user on cloud
 
       var cookie = $cookies.get('userCookie');
-      $cookies.putObject('userCookie', data.username);
+      var user = {
+        username: data.username
+      };
+      $cookies.putObject('userCookie', user);
       userFactory.setUsername(data.username);
       callback(true);
 
