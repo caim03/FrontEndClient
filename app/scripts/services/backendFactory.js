@@ -13,12 +13,14 @@ angular.module('clientApp')
     backendFactory.getDirectory = "/api/backend/getDirectory";
     backendFactory.getFile = "/api/backend/getFile";
     backendFactory.uploadFile = "/api/backend/uploadFile";
+    backendFactory.deleteFile = "/api/backend/deleteFile";
 
     backendFactory.getIpAddress = getIpAddressFn;
     backendFactory.getPort = getPortFn;
     backendFactory.getApiDirectory = getApiDirectoryFn;
     backendFactory.getApiFile = getApiFileFn;
     backendFactory.getApiUpload = getApiUploadFn;
+    backendFactory.getApiDelete = getApiDeleteFn;
 
     function getIpAddressFn() {
       return backendFactory.ipAddress;
@@ -38,6 +40,10 @@ angular.module('clientApp')
 
     function getApiUploadFn() {
       return backendFactory.uploadFile;
+    }
+
+    function getApiDeleteFn() {
+      return backendFactory.deleteFile;
     }
 
     return backendFactory;

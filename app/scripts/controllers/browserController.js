@@ -14,6 +14,7 @@ angular.module('clientApp')
     ctrl.addNavbar = addNavbarFn;
     ctrl.openFile = openFileFn;
     ctrl.handleClick = handleClickFn;
+    ctrl.delete = deleteFn;
 
     $scope.uploadFile = uploadFileFn;
 
@@ -21,23 +22,48 @@ angular.module('clientApp')
 
     getDirectoryTree(userFactory.getUsername());
 
+
     function getDirectoryTree(user) {
       if (user === null || user === "" || user === undefined) {
-        var username = JSON.parse($cookies.get('userCookie')).username;
-        console.log(username);
+        var user = JSON.parse($cookies.get('userCookie')).username;
+        console.log(user);
 
-        if (username === null || username === "" || username === undefined) {
+        if (user === null || user === "" || user === undefined) {
           $location.path('/');
+        }
+        else {
+          userFactory.setUsername(user);
         }
       }
 
+      currPath = user;
+
       var data = {
-        username: username
+        username: user
       };
 
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiDirectory(), data)
         .then(function (response) {
           ctrl.categories = response.data;
+          console.log(ctrl.categories);
+          /*
+          // DA TOGLIERE
+          ctrl.categories = [
+            {
+              folder: true,
+              name: "caim03",
+              children: [
+                {
+                  folder: false,
+                  name: "SDCC",
+                  size: 8,
+                  extension: "txt",
+                  lastModified: null,
+                  path: null
+                }
+              ]
+            }
+          ];*/
         })
         .catch(function (err) {
           console.log(err);
@@ -56,35 +82,24 @@ angular.module('clientApp')
 
       if (event.which === 1) {
         console.log("TASTO SINISTRO");
-        console.log(cat);
-        if (cat.children) {
-          currPath = currPath + '/' + cat.name;
-        }
+
+        currPath = cat.path;
+        console.log(currPath);
       }
     }
 
     function openFileFn(file) {
-      // TODO request file to master
 
-       var config = {
-         headers: {
-         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-         }
+      var metadata = {
+        user: userFactory.getUsername(),
+        guid: file.guid,
+        path: file.path
        };
 
-       var metadata = {
-         type: 'METADATA',
-         name: file.name,
-         size: file.size,
-         fileType: file.fileType,
-         user: userFactory.getUsername(),
-         guid: null
-       };
-
-      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(), metadata, config)
+      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(), metadata)
         .then(function(response) {
           h4Text.innerHTML = file.name;
-          pText.innerHTML = response.data; // TODO vedere come accedere al corpo del file
+          pText.innerHTML = response.data;
         })
         .catch(function(err) {
           console.log(err);
@@ -100,7 +115,7 @@ angular.module('clientApp')
         data: {
           file: file,
           username: userFactory.getUsername(),
-          path: currPath
+          path: currPath + '/' + file.name
         }
       }).then(function(response){
         console.log(response);
@@ -113,6 +128,21 @@ angular.module('clientApp')
           getDirectoryTree(userFactory.getUsername());
         }
       });
+    }
+
+    function deleteFn(file) {
+      var metadata = {
+        idUser: userFactory.getUsername(),
+        path: file.path
+      };
+
+      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiDelete(), metadata)
+        .then(function(response) {
+          if(response.data.type === 'DELETE_SUCCESS') {
+            Materialize.toast('Delete Completed', 4000);
+            getDirectoryTree(userFactory.getUsername());
+          }
+        })
     }
   }]);
 
