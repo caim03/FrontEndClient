@@ -22,7 +22,6 @@ angular.module('clientApp')
 
     getDirectoryTree(userFactory.getUsername());
 
-
     function getDirectoryTree(user) {
       if (user === null || user === "" || user === undefined) {
         var user = JSON.parse($cookies.get('userCookie')).username;
@@ -46,24 +45,6 @@ angular.module('clientApp')
         .then(function (response) {
           ctrl.categories = response.data;
           console.log(ctrl.categories);
-          /*
-          // DA TOGLIERE
-          ctrl.categories = [
-            {
-              folder: true,
-              name: "caim03",
-              children: [
-                {
-                  folder: false,
-                  name: "SDCC",
-                  size: 8,
-                  extension: "txt",
-                  lastModified: null,
-                  path: null
-                }
-              ]
-            }
-          ];*/
         })
         .catch(function (err) {
           console.log(err);
@@ -78,6 +59,9 @@ angular.module('clientApp')
     function handleClickFn(event, cat) {
       if (event.which === 3) {
         console.log("TASTO DESTRO");
+
+        currPath = cat.path;
+        console.log(currPath);
       }
 
       if (event.which === 1) {
@@ -130,10 +114,10 @@ angular.module('clientApp')
       });
     }
 
-    function deleteFn(file) {
+    function deleteFn() {
       var metadata = {
         idUser: userFactory.getUsername(),
-        path: file.path
+        path: currPath
       };
 
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiDelete(), metadata)
@@ -142,6 +126,9 @@ angular.module('clientApp')
             Materialize.toast('Delete Completed', 4000);
             getDirectoryTree(userFactory.getUsername());
           }
+        })
+        .catch(function(error) {
+          console.log(error);
         })
     }
   }]);
