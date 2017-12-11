@@ -2,6 +2,11 @@
   <div class="navbar-fixed" style="z-index: 9999;" ng-controller="MainCtrl as ctrl">
     <nav id="navbar" class="nav-wrapper indigo">
       <div class="col s12">
+        <ul class="left hide-on-med-and-down">
+          <li>
+            <p id="path"></p>
+          </li>
+        </ul>
         <ul class="right hide-on-med-and-down">
           <li>
             <button id="logout" class="btn amber darken-2 waves-effect" ng-click="ctrl.logout();" style="outline: 0; margin-right: 10px;">Logout</button>

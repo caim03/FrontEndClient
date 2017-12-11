@@ -68,6 +68,7 @@ angular.module('clientApp')
         console.log("TASTO SINISTRO");
 
         currPath = cat.path;
+        pathElem.innerHTML = currPath;
         console.log(currPath);
       }
     }
