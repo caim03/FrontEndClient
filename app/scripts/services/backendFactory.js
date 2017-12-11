@@ -14,6 +14,8 @@ angular.module('clientApp')
     backendFactory.getFile = "/api/backend/getFile";
     backendFactory.uploadFile = "/api/backend/uploadFile";
     backendFactory.deleteFile = "/api/backend/deleteFile";
+    backendFactory.login = "/api/backend/login";
+    backendFactory.registration = "/api/backend/registration";
 
     backendFactory.getIpAddress = getIpAddressFn;
     backendFactory.getPort = getPortFn;
@@ -21,6 +23,8 @@ angular.module('clientApp')
     backendFactory.getApiFile = getApiFileFn;
     backendFactory.getApiUpload = getApiUploadFn;
     backendFactory.getApiDelete = getApiDeleteFn;
+    backendFactory.getApiLogin = getApiLoginFn;
+    backendFactory.getApiRegistration = getApiRegistrationFn;
 
     function getIpAddressFn() {
       return backendFactory.ipAddress;
@@ -44,6 +48,14 @@ angular.module('clientApp')
 
     function getApiDeleteFn() {
       return backendFactory.deleteFile;
+    }
+
+    function getApiLoginFn() {
+      return backendFactory.login;
+    }
+
+    function getApiRegistrationFn() {
+      return backendFactory.registration;
     }
 
     return backendFactory;

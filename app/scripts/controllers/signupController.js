@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('SignupCtrl', ['$scope', '$rootScope', '$compile', '$http', '$location', function ($scope, $rootScope, $compile, $http, $location) {
+  .controller('SignupCtrl', ['$scope', '$rootScope', '$compile', '$http', '$location', 'authFactory', function ($scope, $rootScope, $compile, $http, $location, authFactory) {
     var ctrl = this;
 
     ctrl.username = "";
@@ -30,11 +30,21 @@ angular.module('clientApp')
         return;
       }
 
-      console.log("Signup successful");
+      var data = {
+        username: ctrl.username,
+        password: ctrl.password
+      };
 
-      // TODO create user on cloud
-
-      Materialize.toast('Welcome ' + ctrl.username + ', perform the access to login the page!', 3000);
-      $location.path('/');
+      authFactory.signUp(data, function (result) {
+        if(result === true) {
+          Materialize.toast('Welcome ' + ctrl.username + ', perform the access to login the page!', 3000);
+          $location.path('/');
+        }
+        else {
+          console.log("Signup Error");
+          Materialize.toast('There was an error in signup...please try again!', 3000);
+          $location.path('/');
+        }
+      });
     }
   }]);
