@@ -37,12 +37,12 @@ angular.module('clientApp')
 
       authFactory.signUp(data, function (result) {
         if(result === true) {
-          Materialize.toast('Welcome ' + ctrl.username + ', perform the access to login the page!', 3000);
+          Materialize.toast('Welcome ' + ctrl.username + ', perform the access to login the page!', 4000);
           $location.path('/');
         }
         else {
           console.log("Signup Error");
-          Materialize.toast('There was an error in signup...please try again!', 3000);
+          Materialize.toast('There was an error in signup...please try again!', 4000);
           $location.path('/');
         }
       });
