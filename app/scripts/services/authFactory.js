@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('authFactory', function ($cookies, $http, userFactory) {
+  .factory('authFactory', function ($cookies, $http, userFactory,backendFactory) {
     var authFactory = {};
 
     authFactory.login = loginFn;
@@ -13,7 +13,7 @@ angular.module('clientApp')
     authFactory.signup = signupFn;
 
     function loginFn(data, callback) {
-      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiLogin, data)
+      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiLogin(), data)
         .then(function(response){
           if(response.data.type === "LOGIN_SUCCESS") {
             var cookie = $cookies.get('userCookie');
@@ -40,7 +40,7 @@ angular.module('clientApp')
     }
 
     function signupFn(data, callback) {
-      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiRegistration, data)
+      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiRegistration(), data)
         .then(function(response) {
           if(response.data.type === "REGISTRATION_SUCCESS") {
             callback(true);

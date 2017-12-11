@@ -35,7 +35,7 @@ angular.module('clientApp')
         password: ctrl.password
       };
 
-      authFactory.signUp(data, function (result) {
+      authFactory.signup(data, function (result) {
         if(result === true) {
           Materialize.toast('Welcome ' + ctrl.username + ', perform the access to login the page!', 4000);
           $location.path('/');
