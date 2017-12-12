@@ -87,9 +87,9 @@ angular.module('clientApp')
         .then(function(response) {
           var file = new Blob([response.data], {type: response.headers('content-type')});
           var reader = new FileReader();
-          console.log(reader.readAsText(Blob));
+          console.log(reader.readAsText(file));
           h4Text.innerHTML = file.name;
-          pText.innerHTML = response.data;
+          pText.innerHTML = reader.readAsText(file);
         })
         .catch(function(err) {
           console.log(err);
