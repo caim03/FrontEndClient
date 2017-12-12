@@ -81,15 +81,14 @@ angular.module('clientApp')
         path: file.path
        };
 
+      var text = "";
+
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(),
-        metadata,
-        {responseType: 'arraybuffer'})
+        metadata)
         .then(function(response) {
-          var file = new Blob([response.data], {type: response.headers('content-type')});
-          var reader = new FileReader();
-          console.log(reader.readAsText(file));
           h4Text.innerHTML = file.name;
-          pText.innerHTML = reader.readAsText(file);
+          console.log(response.data);
+          pText.innerHTML = response.data;
         })
         .catch(function(err) {
           console.log(err);
