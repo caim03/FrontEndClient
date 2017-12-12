@@ -8,13 +8,15 @@ angular.module('clientApp')
     var pathElem = document.getElementById("path");
     var h4Text = document.getElementById("fileTitle");
     var pText = document.getElementById("fileText");
-
     var currPath = "";
 
     ctrl.addNavbar = addNavbarFn;
     ctrl.openFile = openFileFn;
     ctrl.handleClick = handleClickFn;
     ctrl.delete = deleteFn;
+    ctrl.fileTitle = "";
+    ctrl.fileText = "";
+    ctrl.image = "";
 
     $scope.uploadFile = uploadFileFn;
 
@@ -81,14 +83,20 @@ angular.module('clientApp')
         path: file.path
        };
 
-      var text = "";
-
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(),
         metadata)
         .then(function(response) {
-          h4Text.innerHTML = file.name;
-          console.log(response.data);
-          pText.innerHTML = response.data;
+          ctrl.fileTitle = file.name;
+
+          if(file.size.match('jpg|png')){
+            ctrl.image = response.data;
+          }
+          else if(file.size.match('pdf')){
+            console.log("Not supported for now!");
+          }
+          else{
+            ctrl.fileText = response.data;
+          }
         })
         .catch(function(err) {
           console.log(err);
