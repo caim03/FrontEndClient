@@ -81,8 +81,13 @@ angular.module('clientApp')
         path: file.path
        };
 
-      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(), metadata)
+      $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(),
+        metadata,
+        {responseType: 'arraybuffer'})
         .then(function(response) {
+          var file = new Blob([response.data], {type: response.headers('content-type')});
+          var reader = new FileReader();
+          console.log(reader.readAsText(Blob));
           h4Text.innerHTML = file.name;
           pText.innerHTML = response.data;
         })
@@ -126,6 +131,9 @@ angular.module('clientApp')
           if(response.data.type === 'DELETE_SUCCESS') {
             Materialize.toast('Delete Completed', 4000);
             getDirectoryTree(userFactory.getUsername());
+          }
+          else {
+            Materialize.toast('An error was occurred in file delete', 4000);
           }
         })
         .catch(function(error) {
