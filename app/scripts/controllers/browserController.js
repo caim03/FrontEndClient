@@ -47,12 +47,16 @@ angular.module('clientApp')
 
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiDirectory(), data)
         .then(function (response) {
+          if(response.data.type === "ERROR_CONNECTION") {
+            console.log("Error in connection");
+            $location.path('/500');
+          }
           ctrl.categories = response.data;
           console.log(ctrl.categories);
         })
         .catch(function (err) {
           console.log(err);
-          $location.path('/404');
+          $location.path('/500');
         });
     }
 
@@ -146,6 +150,8 @@ angular.module('clientApp')
         .then(function(response) {
           if(response.data.type === 'DELETE_SUCCESS') {
             Materialize.toast('Delete Completed', 4000);
+            ctrl.fileTitle = "";
+            ctrl.fileText = "";
             getDirectoryTree(userFactory.getUsername());
           }
           else {

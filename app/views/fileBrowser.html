@@ -25,7 +25,7 @@
       <script type="text/ng-template" id="categories.html">
         <div ui-tree-handle class="tree-node tree-node-content angular-ui-tree-handle" data-nodrag>
             <div context="context1" class="collapsible-header" ng-click="toggle(this);" ng-mousedown="ctrl.handleClick($event, cat)"
-                 style="margin-top: 10px; font-weight: 200; min-width: 80%">
+                 style="margin-top: 10px; font-weight: 200; min-width: 250%">
               <a class="" data-nodrag
                   ng-if="cat.children && !cat.newFolder">
                                             <span class="glyphicon"
@@ -43,13 +43,13 @@
         </div>
           <ol ui-tree-nodes="" ng-model="ctrl.categories" ng-if="cat.children" ng-class="{hidden: !collapsed}">
             <li ng-repeat="cat in cat.children"
-                ui-tree-node ng-include="'categories.html'">
+                ui-tree-node ng-include="'categories.html'" style="min-width: 100px">
             </li>
           </ol>
         </div>
       </script>
       <ol ui-tree-nodes="" ng-model="ctrl.categories" ng-class="{hidden: collapsed}">
-        <li ng-repeat="cat in ctrl.categories" ui-tree-node ng-include="'categories.html'"></li>
+        <li ng-repeat="cat in ctrl.categories" ui-tree-node ng-include="'categories.html'" style="min-width: 100px"></li>
       </ol>
     </div>
     <input style="margin-top: 150%; margin-left: 5%; max-width: 90%" ng-if="ctrl.newFolder" ng-model="ctrl.newFolderName"
