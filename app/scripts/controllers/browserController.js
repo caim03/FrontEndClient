@@ -3,7 +3,6 @@
 angular.module('clientApp')
   .controller('BrowserCtrl', ['$scope', '$rootScope', '$compile', '$http', '$location', '$cookies', 'userFactory', 'backendFactory', 'Upload', function ($scope, $rootScope, $compile, $http, $location, $cookies, userFactory, backendFactory, Upload) {
     var ctrl = this;
-    ctrl.fileName = "";
 
     var pathElem = document.getElementById("path");
     var currPath = "";
@@ -17,9 +16,9 @@ angular.module('clientApp')
     ctrl.closeInput = closeInputFn;
     ctrl.createFolder = createFolderFn;
 
+    ctrl.fileName = "";
     ctrl.fileTitle = "";
     ctrl.fileText = "";
-    ctrl.image = "";
     ctrl.newFolder = false;
     ctrl.newFolderName = "";
 
