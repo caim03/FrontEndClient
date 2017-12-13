@@ -6,21 +6,24 @@ angular.module('clientApp')
     ctrl.fileName = "";
 
     var pathElem = document.getElementById("path");
-    var h4Text = document.getElementById("fileTitle");
-    var pText = document.getElementById("fileText");
     var currPath = "";
+    var currCat = null;
 
     ctrl.addNavbar = addNavbarFn;
     ctrl.openFile = openFileFn;
     ctrl.handleClick = handleClickFn;
     ctrl.delete = deleteFn;
+    ctrl.openInput = openInputFn;
+    ctrl.closeInput = closeInputFn;
+    ctrl.createFolder = createFolderFn;
+
     ctrl.fileTitle = "";
     ctrl.fileText = "";
     ctrl.image = "";
+    ctrl.newFolder = false;
+    ctrl.newFolderName = "";
 
     $scope.uploadFile = uploadFileFn;
-
-    ctrl.categories = [];
 
     getDirectoryTree(userFactory.getUsername());
 
@@ -63,6 +66,8 @@ angular.module('clientApp')
         console.log("TASTO DESTRO");
 
         currPath = cat.path;
+        currCat = cat;
+        pathElem.innerHTML = currPath;
         console.log(currPath);
       }
 
@@ -70,6 +75,7 @@ angular.module('clientApp')
         console.log("TASTO SINISTRO");
 
         currPath = cat.path;
+        currCat = cat;
         pathElem.innerHTML = currPath;
         console.log(currPath);
       }
@@ -86,17 +92,21 @@ angular.module('clientApp')
       $http.post('http://' + backendFactory.getIpAddress() + ':' + backendFactory.getPort() + backendFactory.getApiFile(),
         metadata)
         .then(function(response) {
+          console.log(file);
           ctrl.fileTitle = file.name;
+          ctrl.fileText = response.data;
 
-          if(file.size.match('jpg|png')){
+          /*
+          if(file.extension.match('jpg|png')){
             ctrl.image = response.data;
           }
-          else if(file.size.match('pdf')){
+          else if(file.extension.match('pdf')){
             console.log("Not supported for now!");
           }
           else{
             ctrl.fileText = response.data;
           }
+          */
         })
         .catch(function(err) {
           console.log(err);
@@ -146,6 +156,28 @@ angular.module('clientApp')
         .catch(function(error) {
           console.log(error);
         })
+    }
+
+    function openInputFn() {
+      ctrl.newFolder = true;
+    }
+
+    function closeInputFn() {
+      ctrl.newFolder = false;
+    }
+
+    function createFolderFn($event) {
+      if ($event.which === 13 || $event.keyCode === 13) {
+        var child = {
+          folder: true,
+          path: currPath + '/' + ctrl.newFolderName,
+          name: ctrl.newFolderName,
+          children: []
+        };
+
+        currCat.children.push(child);
+        closeInputFn();
+      }
     }
   }]);
 

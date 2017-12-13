@@ -4,7 +4,7 @@
       <div class="col s12">
         <ul class="left hide-on-med-and-down">
           <li>
-            <p id="path"></p>
+            <p id="path" style="margin-left: 10px"></p>
           </li>
         </ul>
         <ul class="right hide-on-med-and-down">
@@ -27,7 +27,7 @@
             <div context="context1" class="collapsible-header" ng-click="toggle(this);" ng-mousedown="ctrl.handleClick($event, cat)"
                  style="margin-top: 10px; font-weight: 200;">
               <a class="" data-nodrag
-                  ng-if="cat.children">
+                  ng-if="cat.children && !cat.newFolder">
                                             <span class="glyphicon"
                                                   ng-class="{'glyphicon-folder-close': !collapsed,'glyphicon-folder-open': collapsed}"
                                                   style="margin-right: 10px;">
@@ -52,6 +52,8 @@
         <li ng-repeat="cat in ctrl.categories" ui-tree-node ng-include="'categories.html'"></li>
       </ol>
     </div>
+    <input style="margin-top: 150%; margin-left: 5%; max-width: 90%" ng-if="ctrl.newFolder" ng-model="ctrl.newFolderName"
+    ng-keypress="ctrl.createFolder($event)">
   </div>
 </header>
 
@@ -61,7 +63,6 @@
       <div class="col s12 m9 l10 offset-l1">
         <div class="section">
           <h4 id="fileTitle">{{ctrl.fileTitle}}</h4>
-          <img ng-src="data:image/JPEG;base64,{{ctrl.image}}"/>
           <p id="fileText">{{ctrl.fileText}}</p>
         </div>
       </div>
@@ -76,10 +77,12 @@
       </label>
       <input id="file-input" type="file" onchange="angular.element(this).scope().uploadFile(this);"/>
   </div>
+  <li><a ng-click="ctrl.openInput()">New Folder</a></li>
   <li><a ng-click="ctrl.delete()">Delete</a></li>
   <li class="divider"></li>
   <li><a ng-click="">Properties</a></li>
 </ul>
+
 
 <!--
 <form id="form">
