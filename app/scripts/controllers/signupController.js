@@ -42,7 +42,7 @@ angular.module('clientApp')
         }
         else {
           console.log("Signup Error");
-          Materialize.toast('There was an error in signup...please try again!', 4000);
+          Materialize.toast(':( There was an error in signup...please try again!', 4000);
           $location.path('/');
         }
       });

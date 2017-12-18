@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('backendFactory', function(APP_CONFIGURATION) {
+  .factory('backendFactory', ['APP_CONFIGURATION', function(APP_CONFIGURATION) {
     var backendFactory = {};
 
     backendFactory.ipAddress = APP_CONFIGURATION.backendAddress;
@@ -59,4 +59,4 @@ angular.module('clientApp')
     }
 
     return backendFactory;
-  });
+  }]);

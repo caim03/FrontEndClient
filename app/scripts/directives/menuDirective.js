@@ -29,16 +29,6 @@
                  });
                  last = event.timeStamp;
                });
-               //$(iElement).click(function(event) {
-               //  ul.css({
-               //    position: "fixed",
-               //    display: "block",
-               //    left: event.clientX + 'px',
-               //    top: event.clientY + 'px'
-               //  });
-               //  last = event.timeStamp;
-               //});
-
                $(document).click(function(event) {
                  var target = $(event.target);
                  if (!target.is(".popover") && !target.parents().is(".popover")) {

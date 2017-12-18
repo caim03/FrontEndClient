@@ -98,18 +98,6 @@ angular.module('clientApp')
           console.log(file);
           ctrl.fileTitle = file.name;
           ctrl.fileText = response.data;
-
-          /*
-          if(file.extension.match('jpg|png')){
-            ctrl.image = response.data;
-          }
-          else if(file.extension.match('pdf')){
-            console.log("Not supported for now!");
-          }
-          else{
-            ctrl.fileText = response.data;
-          }
-          */
         })
         .catch(function(err) {
           console.log(err);
@@ -137,6 +125,9 @@ angular.module('clientApp')
           /* Update tree */
           getDirectoryTree(userFactory.getUsername());
         }
+        else{
+          Materialize.toast(':( An error was occurred in file upload', 4000);
+        }
       });
     }
 
@@ -155,7 +146,7 @@ angular.module('clientApp')
             getDirectoryTree(userFactory.getUsername());
           }
           else {
-            Materialize.toast('An error was occurred in file delete', 4000);
+            Materialize.toast(':( An error was occurred in file delete', 4000);
           }
         })
         .catch(function(error) {

@@ -36,6 +36,7 @@ angular.module('clientApp')
         else {
           console.log("Login error");
           ctrl.invalid = true;
+          Materialize.toast(":( There was an error in login...please try again!", 4000);
         }
       });
     }
