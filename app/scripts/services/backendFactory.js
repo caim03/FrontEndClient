@@ -5,17 +5,17 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('backendFactory', function() {
+  .factory('backendFactory', function(APP_CONFIGURATION) {
     var backendFactory = {};
 
-    backendFactory.ipAddress = "54.208.204.184";
-    backendFactory.port = "9001";
-    backendFactory.getDirectory = "/api/backend/getDirectory";
-    backendFactory.getFile = "/api/backend/getFile";
-    backendFactory.uploadFile = "/api/backend/uploadFile";
-    backendFactory.deleteFile = "/api/backend/deleteFile";
-    backendFactory.login = "/api/backend/login";
-    backendFactory.registration = "/api/backend/registration";
+    backendFactory.ipAddress = APP_CONFIGURATION.backendAddress;
+    backendFactory.port = APP_CONFIGURATION.backendPort;
+    backendFactory.getDirectory = APP_CONFIGURATION.getDirectory;
+    backendFactory.getFile = APP_CONFIGURATION.getFile;
+    backendFactory.uploadFile = APP_CONFIGURATION.uploadFile;
+    backendFactory.deleteFile = APP_CONFIGURATION.deleteFile;
+    backendFactory.login = APP_CONFIGURATION.login;
+    backendFactory.registration = APP_CONFIGURATION.registration;
 
     backendFactory.getIpAddress = getIpAddressFn;
     backendFactory.getPort = getPortFn;
