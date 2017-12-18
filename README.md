@@ -20,4 +20,5 @@ Per utilizzare la dashboard in modalità sviluppo digitare: `grunt serve`
 ## Deploy
 
 Per effettuare il deploy del front-end digitare: `grunt build`
+
 Il comando precedente genera una cartella `dist`, con il contenuto minificato da servire ai client
