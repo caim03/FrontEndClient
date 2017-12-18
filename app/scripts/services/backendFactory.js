@@ -9,7 +9,7 @@ angular.module('clientApp')
     var backendFactory = {};
 
     // TODO modificare ipAddress e port del backend client su EC2
-    backendFactory.ipAddress = "localhost";
+    backendFactory.ipAddress = "54.208.204.184";
     backendFactory.port = "9001";
     backendFactory.getDirectory = "/api/backend/getDirectory";
     backendFactory.getFile = "/api/backend/getFile";
