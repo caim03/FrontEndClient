@@ -10,6 +10,9 @@ angular.module('clientApp')
 
     ctrl.login = loginFn;
 
+    /**
+     * Questa funzione permette di eseguire il login all'applicazione
+     */
     function loginFn() {
       if (ctrl.username === undefined || ctrl.username === null || ctrl.username === "" ) {
         console.log("Invalid username");

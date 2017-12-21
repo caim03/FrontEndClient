@@ -4,6 +4,10 @@
 
 'use strict';
 
+/**
+ * backendFactory gestisce le api per contattare il backend client
+ */
+
 angular.module('clientApp')
   .factory('backendFactory', ['APP_CONFIGURATION', function(APP_CONFIGURATION) {
     var backendFactory = {};

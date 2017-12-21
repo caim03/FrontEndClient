@@ -26,6 +26,11 @@ angular.module('clientApp')
 
     getDirectoryTree(userFactory.getUsername());
 
+
+    /**
+     * Questa funzione permette di richiedere l'intero file system dell'utente 'user'
+     * @param user
+     */
     function getDirectoryTree(user) {
       if (user === null || user === "" || user === undefined) {
         var user = JSON.parse($cookies.get('userCookie')).username;
@@ -84,6 +89,11 @@ angular.module('clientApp')
       }
     }
 
+    /**
+     * Questa funzione permette di richiedere il contenuto di un file e mostrarlo nel browser
+     * @param file
+     */
+    // TODO gestire PDF e immagini
     function openFileFn(file) {
 
       var metadata = {
@@ -105,6 +115,10 @@ angular.module('clientApp')
         });
     }
 
+    /**
+     * Questa funzione permette di eseguire l'upload di un file, prelevandolo dal file system locale
+     * @param files
+     */
     function uploadFileFn(files) {
       var file = files.files[0];
 
@@ -131,6 +145,9 @@ angular.module('clientApp')
       });
     }
 
+    /**
+     * Questa funzione permette di cancellare un file
+     */
     function deleteFn() {
       var metadata = {
         idUser: userFactory.getUsername(),

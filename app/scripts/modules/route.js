@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * File di configurazione e gestione delle rotte
+ */
+
 angular.module('clientApp').config(function ($routeProvider) {
   $routeProvider
     .when('/', {

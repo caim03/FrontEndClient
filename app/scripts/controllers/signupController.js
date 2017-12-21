@@ -11,6 +11,9 @@ angular.module('clientApp')
 
     ctrl.signUp = signUpFn;
 
+    /**
+     * Questa funzione permette di eseguire la registrazione di un utente
+     */
     function signUpFn() {
       if (ctrl.username === "" || ctrl.username === undefined || ctrl.username === null) {
         console.log("Invalid username");

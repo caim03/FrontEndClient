@@ -4,6 +4,10 @@
 
 'use strict';
 
+/**
+ * File di configurazione
+ */
+
 angular.module('clientApp')
   .constant('APP_CONFIGURATION', {
     backendAddress: "54.208.204.184",

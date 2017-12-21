@@ -4,6 +4,13 @@
 
 'use strict';
 
+/**
+ * authFactory espone le principali funzionalità in grado di:
+ *  - permettere il login degli utenti;
+ *  - permettere la registrazione degli utenti;
+ *  - gestire i cookie
+ */
+
 angular.module('clientApp')
   .factory('authFactory', function ($cookies, $http, userFactory,backendFactory) {
     var authFactory = {};

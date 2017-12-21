@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * userFactory permette di tenere traccia dell'utente corrente all'interno dell'applicazione (usato insieme ai cookie)
+ */
+
 angular.module('clientApp')
   .factory('userFactory', function() {
     var userFactory = {};
