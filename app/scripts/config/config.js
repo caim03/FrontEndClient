@@ -10,7 +10,7 @@
 
 angular.module('clientApp')
   .constant('APP_CONFIGURATION', {
-    backendAddress: "54.208.204.184",
+    backendAddress: "18.195.44.2",
     backendPort: "9001",
     getDirectory: "/api/backend/getDirectory",
     getFile: "/api/backend/getFile",
